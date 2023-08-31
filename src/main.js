@@ -2,9 +2,18 @@
 var posterImg = document.querySelector(".poster-img");
 var posterTitle = document.querySelector(".poster-title");
 var posterQuote = document.querySelector(".poster-quote");
+var mainPoster = document.querySelector(".main-poster");
+var posterForm = document.querySelector(".poster-form"); 
+var savedPostersView = document.querySelector(".saved-posters");
 
 // query selectors variables for buttons
-var button = document.querySelector(".show-random");
+// Changed button name to randomButton before adding new to differentiate between buttons -EK
+var randomButton = document.querySelector(".show-random");
+var formButton = document.querySelector(".show-form");
+var showSavedButton = document.querySelector(".show-saved");
+var showMainButton = document.querySelector(".show-main");
+var backToMainButton = document.querySelector(".back-to-main");
+var makePosterButton = document.querySelector("make-poster");
 
 // Arrays that contain the imgsrc, titles, quotes
 var images = [
@@ -109,7 +118,13 @@ var currentPoster;
 
 // event listeners go here 👇
 document.addEventListener("DOMContentLoaded", randomPoster);
-button.addEventListener("click", randomPoster);
+randomButton.addEventListener("click", randomPoster);
+formButton.addEventListener("click", showPosterForm);
+showSavedButton.addEventListener("click", showSavedPosters);
+showMainButton.addEventListener("click", backToMain);
+backToMainButton.addEventListener("click", backToMain);
+makePosterButton.addEventListener("click", createNewPoster, backToMain);
+
 
 // functions and event handlers go here 👇
 
@@ -137,6 +152,21 @@ function createPoster(imageURL, title, quote) {
     id: Date.now(),
     imageURL: imageURL,
     title: title,
-    quote: quote,
+    quote: quote
   };
+}
+function showPosterForm() {
+  posterForm.classList.remove("hidden");
+  mainPoster.classList.add("hidden");
+  savedPostersView.classList.add("hidden");
+}
+function showSavedPosters() {
+  mainPoster.classList.add("hidden");
+  posterForm.classList.add("hidden");
+  savedPostersView.classList.remove("hidden");
+}
+function backToMain() {
+  mainPoster.classList.remove("hidden");
+  posterForm.classList.add("hidden");
+  savedPostersView.classList.add("hidden");
 }
