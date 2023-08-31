@@ -2,9 +2,19 @@
 var posterImg = document.querySelector(".poster-img");
 var posterTitle = document.querySelector(".poster-title");
 var posterQuote = document.querySelector(".poster-quote");
+var mainPoster = document.querySelector(".main-poster");
+var formView = document.querySelector(".poster-form");
+var savedPostersView = document.querySelector(".saved-posters");
+var mainView = document.querySelector(".main-poster");
+var showPosterView = document.querySelector(".main-poster");
 
 // query selectors variables for buttons
-var button = document.querySelector(".show-random");
+var randomButton = document.querySelector(".show-random");
+var makePosterButton = document.querySelector(".show-form");
+var nvmdBackButton = document.querySelector(".show-main");
+var savedPostersButton = document.querySelector(".show-saved");
+var mainPosterButton = document.querySelector(".back-to-main");
+var showPosterButton = document.querySelector(".make-poster");
 
 // Arrays that contain the imgsrc, titles, quotes
 var images = [
@@ -109,9 +119,48 @@ var currentPoster;
 
 // event listeners go here 👇
 document.addEventListener("DOMContentLoaded", randomPoster);
-button.addEventListener("click", randomPoster);
+randomButton.addEventListener("click", randomPoster);
+makePosterButton.addEventListener("click", makeButtonView);
+nvmdBackButton.addEventListener("click", nvmdBackButtonView);
+savedPostersButton.addEventListener("click", savedPostersClick);
+mainPosterButton.addEventListener("click", mainPosterView);
+showPosterButton.addEventListener("click", createCustomPoster);
 
 // functions and event handlers go here 👇
+function createCustomPoster(event) {
+  event.preventDefault();
+  var customPosterArr = [];
+  var newCustomPoster = createPoster(
+    posterImg.value,
+    posterTitle.value,
+    posterQuote.value
+  );
+  customPosterArr.push(newCustomPoster);
+  renderPoster(newCustomPoster);
+  mainPosterView();
+}
+
+function mainPosterView() {
+  savedPostersView.classList.add("hidden");
+  formView.classList.add("hidden");
+  mainPoster.classList.remove("hidden");
+}
+
+function savedPostersClick() {
+  savedPostersView.classList.remove("hidden");
+  formView.classList.add("hidden");
+  mainPoster.classList.add("hidden");
+}
+
+function makeButtonView() {
+  formView.classList.remove("hidden");
+  mainPoster.classList.add("hidden");
+}
+
+function nvmdBackButtonView() {
+  mainPoster.classList.remove("hidden");
+  formView.classList.add("hidden");
+}
 
 function randomPoster() {
   var imgURL = images[getRandomIndex(images)];
@@ -133,10 +182,11 @@ function getRandomIndex(array) {
 }
 
 function createPoster(imageURL, title, quote) {
-  return {
+  var createdPoster = {
     id: Date.now(),
     imageURL: imageURL,
     title: title,
     quote: quote,
   };
+  return createdPoster;
 }
