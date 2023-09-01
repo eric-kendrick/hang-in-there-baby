@@ -122,11 +122,11 @@ var currentPoster;
 // event listeners go here :point_down:
 document.addEventListener("DOMContentLoaded", randomPoster);
 randomButton.addEventListener("click", randomPoster);
-formButton.addEventListener("click", showPosterForm);
-showSavedButton.addEventListener("click", showSavedPosters);
-showMainButton.addEventListener("click", backToMain);
-backToMainButton.addEventListener("click", backToMain);
-makePosterButton.addEventListener("click", createNewPoster, backToMain);
+makePosterButton.addEventListener("click", makeButtonView);
+nvmdBackButton.addEventListener("click", nvmdBackButtonView);
+mainPosterButton.addEventListener("click", mainPosterView);
+showPosterButton.addEventListener("click", createCustomPoster);
+savePosterButton.addEventListener("click", savedPostersClick);
 
 
 // functions and event handlers go here --//
