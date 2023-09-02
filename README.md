@@ -1,7 +1,7 @@
 # Hang in There  
 
 ### Abstract:
-  Hang In There is a dynamic web application that displays customizable inspirational posters on the web page. 
+  Hang In There is a dynamic web application that displays customizable inspirational posters on the web page. It offers features that allow the user to generate random poster images, titles and quotes from a catalog of existing examples as well as allowing the user to create their own poster from scratch. Additionally, the user can save created posters to a saved gallery. 
 
 ### Installation Instructions:
 [//]: <> (What steps does a person have to take to get your app cloned down and running?)
