@@ -1,21 +1,26 @@
-// query selector variables for viewable items 👇
+// query selector variables for viewable items :point_down:
 var posterImg = document.querySelector(".poster-img");
 var posterTitle = document.querySelector(".poster-title");
 var posterQuote = document.querySelector(".poster-quote");
 var mainPoster = document.querySelector(".main-poster");
-var posterForm = document.querySelector(".poster-form"); 
+var formView = document.querySelector(".poster-form");
 var savedPostersView = document.querySelector(".saved-posters");
-
+var mainView = document.querySelector(".main-poster");
+var showPosterView = document.querySelector(".main-poster");
 // query selectors variables for buttons
-// Changed button name to randomButton before adding new to differentiate between buttons -EK
 var randomButton = document.querySelector(".show-random");
-var formButton = document.querySelector(".show-form");
+var makePosterButton = document.querySelector(".show-form");
+var nvmdBackButton = document.querySelector(".show-main");
+var mainPosterButton = document.querySelector(".back-to-main");
+var showPosterButton = document.querySelector(".make-poster");
+var savePosterButton = document.querySelector(".save-poster");
 var showSavedButton = document.querySelector(".show-saved");
-var showMainButton = document.querySelector(".show-main");
-var backToMainButton = document.querySelector(".back-to-main");
-var makePosterButton = document.querySelector("make-poster");
-
+// query selectors variables for input field
+var posterImageUrl = document.querySelector("#poster-image-url");
+var posterTitleInput = document.querySelector("#poster-title");
+var posterQuoteInput = document.querySelector("#poster-quote");
 // Arrays that contain the imgsrc, titles, quotes
+
 var images = [
   "./assets/bees.jpg",
   "./assets/bridge.jpg",
@@ -82,7 +87,6 @@ var quotes = [
   "Success is not final, failure is not fatal: it is the courage to continue that counts.",
   "Never bend your head. Always hold it high. Look the world straight in the eye.",
   "What you get by achieving your goals is not as important as what you become by achieving your goals.",
-  "Believe you can and you're halfway there.",
   "When you have a dream, you've got to grab it and never let go.",
   "I can't change the direction of the wind, but I can adjust my sails to always reach my destination.",
   "No matter what you're going through, there's a light at the end of the tunnel.",
@@ -115,38 +119,67 @@ var quotes = [
 ];
 var savedPosters = [];
 var currentPoster;
-
-// event listeners go here 👇
+// event listeners go here :point_down:
 document.addEventListener("DOMContentLoaded", randomPoster);
 randomButton.addEventListener("click", randomPoster);
-formButton.addEventListener("click", showPosterForm);
-showSavedButton.addEventListener("click", showSavedPosters);
-showMainButton.addEventListener("click", backToMain);
-backToMainButton.addEventListener("click", backToMain);
-makePosterButton.addEventListener("click", createNewPoster, backToMain);
+makePosterButton.addEventListener("click", makeButtonView);
+nvmdBackButton.addEventListener("click", nvmdBackButtonView);
+mainPosterButton.addEventListener("click", mainPosterView);
+showPosterButton.addEventListener("click", createCustomPoster);
+savePosterButton.addEventListener("click", savedPostersClick);
 
 
-// functions and event handlers go here 👇
+// functions and event handlers go here --//
+function createCustomPoster(event) {
+  event.preventDefault();
+  images.push(posterImageUrl.value);
+  titles.push(posterTitleInput.value);
+  quotes.push(posterQuoteInput.value);
+  currentPoster = createPoster(
+    posterImageUrl.value,
+    posterTitleInput.value,
+    posterQuoteInput.value
+  );
+  renderPoster(currentPoster);
+  mainPosterView();
+  posterImageUrl.value = "";
+  posterTitleInput.value = "";
+  posterQuoteInput.value = "";
+}
+function mainPosterView() {
+  savedPostersView.classList.add("hidden");
+  formView.classList.add("hidden");
+  mainPoster.classList.remove("hidden");
+}
+function savedPostersClick() {
+  savedPostersView.classList.remove("hidden");
+  formView.classList.add("hidden");
+  mainPoster.classList.add("hidden");
+}
 
+function makeButtonView() {
+  formView.classList.remove("hidden");
+  mainPoster.classList.add("hidden");
+}
+function nvmdBackButtonView() {
+  mainPoster.classList.remove("hidden");
+  formView.classList.add("hidden");
+}
 function randomPoster() {
   var imgURL = images[getRandomIndex(images)];
   var title = titles[getRandomIndex(titles)];
   var quote = quotes[getRandomIndex(quotes)];
-
-  var poster = createPoster(imgURL, title, quote);
-  renderPoster(poster);
+  currentPoster = createPoster(imgURL, title, quote);
+  renderPoster(currentPoster);
 }
-
 function renderPoster(poster) {
   posterImg.src = poster.imageURL;
   posterTitle.innerText = poster.title;
   posterQuote.innerText = poster.quote;
 }
-
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
-
 function createPoster(imageURL, title, quote) {
   return {
     id: Date.now(),
