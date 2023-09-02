@@ -131,7 +131,7 @@ savedPostersButton.addEventListener("click", savedDisplayClick);
 mainPosterButton.addEventListener("click", mainPosterView);
 showPosterButton.addEventListener("click", createCustomPoster);
 savePosterButton.addEventListener("click", savePosterClick);
-savedPostersGrid.addEventListener("dblclick", deleteSavedCover);
+savedPostersGrid.addEventListener("dblclick", deleteSavedPoster);
 
 // functions and event handlers go here :point_down:
 
@@ -152,6 +152,18 @@ function createCustomPoster(event) {
   posterImageUrl.value = "";
   posterTitleInput.value = "";
   posterQuoteInput.value = "";
+}
+
+function deleteSavedPoster(event) {
+  var clickedElement = event.target;
+  var miniPoster = clickedElement.closest(".mini-poster");
+  if (miniPoster) {
+    var posterIndex = Array.from(savedPostersGrid.children).indexOf(miniPoster);
+    if (posterIndex !== -1) {
+      savedPosters.splice(posterIndex, 1);
+      displaySavedPosters();
+    }
+  }
 }
 
 function mainPosterView() {
