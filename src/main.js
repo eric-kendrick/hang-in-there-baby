@@ -138,19 +138,6 @@ showPosterButton.addEventListener("click", alertMessage);
 
 
 // functions and event handlers go here :point_down:
-function alertMessage() {
-  console.log(createPoster)
-  currentPoster = createPoster(
-    posterImageUrl.value,
-    posterTitleInput.value,
-    posterQuoteInput.value
-  );
-  if (currentPoster === "") {
-    alert ("You must fill out the Input field below!");
-  }
-}
-
-
 function createCustomPoster(event) {
   event.preventDefault();
   images.push(posterImageUrl.value);
