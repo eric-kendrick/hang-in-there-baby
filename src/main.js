@@ -7,20 +7,23 @@ var formView = document.querySelector(".poster-form");
 var savedPostersView = document.querySelector(".saved-posters");
 var mainView = document.querySelector(".main-poster");
 var showPosterView = document.querySelector(".main-poster");
+var savedPostersGrid = document.querySelector(".saved-posters-grid");
+
 // query selectors variables for buttons
 var randomButton = document.querySelector(".show-random");
 var makePosterButton = document.querySelector(".show-form");
 var nvmdBackButton = document.querySelector(".show-main");
+var savedPostersButton = document.querySelector(".show-saved");
 var mainPosterButton = document.querySelector(".back-to-main");
 var showPosterButton = document.querySelector(".make-poster");
 var savePosterButton = document.querySelector(".save-poster");
-var showSavedButton = document.querySelector(".show-saved");
+
 // query selectors variables for input field
 var posterImageUrl = document.querySelector("#poster-image-url");
 var posterTitleInput = document.querySelector("#poster-title");
 var posterQuoteInput = document.querySelector("#poster-quote");
-// Arrays that contain the imgsrc, titles, quotes
 
+// Arrays that contain the imgsrc, titles, quotes
 var images = [
   "./assets/bees.jpg",
   "./assets/bridge.jpg",
@@ -79,7 +82,7 @@ var titles = [
   "wisdom",
 ];
 var quotes = [
-  "Don’t downgrade your dream just to fit your reality, upgrade your conviction to match your destiny.",
+  "Don't downgrade your dream just to fit your reality, upgrade your conviction to match your destiny.",
   "You are braver than you believe, stronger than you seem and smarter than you think.",
   "You are confined only by the walls you build yourself.",
   "The one who has confidence gains the confidence of others.",
@@ -87,6 +90,7 @@ var quotes = [
   "Success is not final, failure is not fatal: it is the courage to continue that counts.",
   "Never bend your head. Always hold it high. Look the world straight in the eye.",
   "What you get by achieving your goals is not as important as what you become by achieving your goals.",
+  "Believe you can and you're halfway there.",
   "When you have a dream, you've got to grab it and never let go.",
   "I can't change the direction of the wind, but I can adjust my sails to always reach my destination.",
   "No matter what you're going through, there's a light at the end of the tunnel.",
@@ -105,7 +109,7 @@ var quotes = [
   "It is never too late to be what you might have been.",
   "Happiness often sneaks in through a door you didn't know you left open.",
   "We must be willing to let go of the life we planned so as to have the life that is waiting for us.",
-  "Never limit yourself because of others’ limited imagination; never limit others because of your own limited imagination.",
+  "Never limit yourself because of others' limited imagination; never limit others because of your own limited imagination.",
   "Be the change that you wish to see in the world.",
   "Let us make our future now, and let us make our dreams tomorrow's reality.",
   "You don't always need a plan. Sometimes you just need to breathe, trust, let go, and see what happens.",
@@ -120,16 +124,33 @@ var quotes = [
 var savedPosters = [];
 var currentPoster;
 // event listeners go here :point_down:
+
 document.addEventListener("DOMContentLoaded", randomPoster);
 randomButton.addEventListener("click", randomPoster);
 makePosterButton.addEventListener("click", makeButtonView);
 nvmdBackButton.addEventListener("click", nvmdBackButtonView);
+savedPostersButton.addEventListener("click", savedDisplayClick);
 mainPosterButton.addEventListener("click", mainPosterView);
 showPosterButton.addEventListener("click", createCustomPoster);
-savePosterButton.addEventListener("click", savedPostersClick);
+savePosterButton.addEventListener("click", savePosterClick);
+savedPostersGrid.addEventListener("dblclick", deleteSavedPoster);
+showPosterButton.addEventListener("click", alertMessage);
 
 
-// functions and event handlers go here --//
+// functions and event handlers go here :point_down:
+function alertMessage() {
+  console.log(createPoster)
+  currentPoster = createPoster(
+    posterImageUrl.value,
+    posterTitleInput.value,
+    posterQuoteInput.value
+  );
+  if (currentPoster === "") {
+    alert ("You must fill out the Input field below!");
+  }
+}
+
+
 function createCustomPoster(event) {
   event.preventDefault();
   images.push(posterImageUrl.value);
@@ -146,6 +167,19 @@ function createCustomPoster(event) {
   posterTitleInput.value = "";
   posterQuoteInput.value = "";
 }
+
+function deleteSavedPoster(event) {
+  var clickedElement = event.target;
+  var miniPoster = clickedElement.closest(".mini-poster");
+  if (miniPoster) {
+    var posterIndex = Array.from(savedPostersGrid.children).indexOf(miniPoster);
+    if (posterIndex !== -1) {
+      savedPosters.splice(posterIndex, 1);
+      displaySavedPosters();
+    }
+  }
+}
+
 function mainPosterView() {
   savedPostersView.classList.add("hidden");
   formView.classList.add("hidden");
@@ -157,6 +191,37 @@ function savedPostersClick() {
   mainPoster.classList.add("hidden");
 }
 
+function savePosterClick() {
+  var notSaved = true;
+  if (savedPosters.length) {
+    for (var i = 0; i < savedPosters.length; i++) {
+      if (currentPoster.id === savedPosters[i].id) {
+        notSaved = false;
+        break; 
+      }
+    }
+  }
+  if (notSaved) {
+    savedPosters.push(currentPoster);
+  }
+}
+
+function displaySavedPosters() {
+  savedPostersGrid.innerHTML = "";
+
+  for (var i = 0; i < savedPosters.length; i++) {
+    savedPostersGrid.innerHTML += `<article class='mini-poster'>
+      <img src='${savedPosters[i].imageURL}'>
+      <h2>${savedPosters[i].title}</h2>
+      <h4>${savedPosters[i].quote}</h4>
+    </article>`;
+  }
+}
+
+function savedDisplayClick() {
+  savedPostersClick();
+  displaySavedPosters();
+}
 function makeButtonView() {
   formView.classList.remove("hidden");
   mainPoster.classList.add("hidden");
@@ -185,21 +250,6 @@ function createPoster(imageURL, title, quote) {
     id: Date.now(),
     imageURL: imageURL,
     title: title,
-    quote: quote
+    quote: quote,
   };
-}
-function showPosterForm() {
-  posterForm.classList.remove("hidden");
-  mainPoster.classList.add("hidden");
-  savedPostersView.classList.add("hidden");
-}
-function showSavedPosters() {
-  mainPoster.classList.add("hidden");
-  posterForm.classList.add("hidden");
-  savedPostersView.classList.remove("hidden");
-}
-function backToMain() {
-  mainPoster.classList.remove("hidden");
-  posterForm.classList.add("hidden");
-  savedPostersView.classList.add("hidden");
 }
