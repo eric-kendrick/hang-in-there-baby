@@ -10,6 +10,10 @@
 
 ### Preview of App:
 
+
+https://github.com/eric-kendrick/hang-in-there-baby/assets/45040241/1ba1e813-7286-429c-b9d0-bf3ae54fbe38
+
+
 ### Context:
   Hang in There is the first paired project in Module 1 of Turing's front-end engineering program, and the project scope required the application to be delivered within five days. The project was completed utilizing HTML, CSS, and Javascript without a library.
 
