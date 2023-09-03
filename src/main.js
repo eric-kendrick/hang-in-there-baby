@@ -22,6 +22,7 @@ var savePosterButton = document.querySelector(".save-poster");
 var posterImageUrl = document.querySelector("#poster-image-url");
 var posterTitleInput = document.querySelector("#poster-title");
 var posterQuoteInput = document.querySelector("#poster-quote");
+
 // Arrays that contain the imgsrc, titles, quotes
 var images = [
   "./assets/bees.jpg",
@@ -123,6 +124,7 @@ var quotes = [
 var savedPosters = [];
 var currentPoster;
 // event listeners go here :point_down:
+
 document.addEventListener("DOMContentLoaded", randomPoster);
 randomButton.addEventListener("click", randomPoster);
 makePosterButton.addEventListener("click", makeButtonView);
@@ -132,12 +134,25 @@ mainPosterButton.addEventListener("click", mainPosterView);
 showPosterButton.addEventListener("click", createCustomPoster);
 savePosterButton.addEventListener("click", savePosterClick);
 savedPostersGrid.addEventListener("dblclick", deleteSavedPoster);
+showPosterButton.addEventListener("click", alertMessage);
+
 
 // functions and event handlers go here :point_down:
+function alertMessage() {
+  console.log(createPoster)
+  currentPoster = createPoster(
+    posterImageUrl.value,
+    posterTitleInput.value,
+    posterQuoteInput.value
+  );
+  if (currentPoster === "") {
+    alert ("You must fill out the Input field below!");
+  }
+}
+
 
 function createCustomPoster(event) {
   event.preventDefault();
-  // --- Add input values to their respective arrays --- //
   images.push(posterImageUrl.value);
   titles.push(posterTitleInput.value);
   quotes.push(posterQuoteInput.value);
@@ -148,7 +163,6 @@ function createCustomPoster(event) {
   );
   renderPoster(currentPoster);
   mainPosterView();
-  //--- Clear input values after showPosterBtn click ---//
   posterImageUrl.value = "";
   posterTitleInput.value = "";
   posterQuoteInput.value = "";
@@ -183,7 +197,7 @@ function savePosterClick() {
     for (var i = 0; i < savedPosters.length; i++) {
       if (currentPoster.id === savedPosters[i].id) {
         notSaved = false;
-        break; // Exit the loop once a match is found
+        break; 
       }
     }
   }
